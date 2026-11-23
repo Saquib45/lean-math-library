@@ -1,0 +1,34 @@
+/-
+Copyright (c) 2025 Weiyi Wang. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Weiyi Wang
+-/
+module
+
+public import Mathlib.Algebra.Module.Equiv.Basic
+public import Mathlib.Algebra.Order.Group.Equiv
+public import Mathlib.Algebra.Order.Module.Synonym
+
+set_option doc.verso true
+set_option doc.verso.suggestions false
+
+/-!
+# Linear equivalence for order type synonyms
+-/
+
+@[expose] public section
+
+variable (α β : Type*)
+variable [Semiring α] [AddCommMonoid β] [Module α β]
+
+/-- `toLex` as a linear equivalence -/
+def toLexLinearEquiv : β ≃ₗ[α] Lex β := (toLexAddEquiv β).toLinearEquiv toLex_smul
+
+/-- `ofLex` as a linear equivalence -/
+def ofLexLinearEquiv : Lex β ≃ₗ[α] β := (ofLexAddEquiv β).toLinearEquiv ofLex_smul
+
+@[simp] lemma coe_toLexLinearEquiv : ⇑(toLexLinearEquiv α β) = toLex := rfl
+@[simp] lemma coe_ofLexLinearEquiv : ⇑(ofLexLinearEquiv α β) = ofLex := rfl
+
+@[simp] lemma symm_toLexLinearEquiv : (toLexLinearEquiv α β).symm = ofLexLinearEquiv α β := rfl
+@[simp] lemma symm_ofLexLinearEquiv : (ofLexLinearEquiv α β).symm = toLexLinearEquiv α β := rfl

@@ -1,0 +1,26 @@
+/-
+Copyright (c) 2025 Yaël Dillies. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Yaël Dillies
+-/
+module
+
+public import Mathlib.Algebra.Order.Nonneg.Module
+public import Mathlib.Topology.Algebra.MulAction
+
+set_option doc.verso true
+set_option doc.verso.suggestions false
+
+/-!
+# Continuous nonnegative scalar multiplication
+-/
+
+public section
+
+variable {R α : Type*} [Semiring R] [PartialOrder R] [SMul R α] [TopologicalSpace α]
+
+instance [ContinuousConstSMul R α] : ContinuousConstSMul (Nonneg R) α where
+  continuous_const_smul r := continuous_const_smul r.val
+
+instance [TopologicalSpace R] [ContinuousSMul R α] : ContinuousSMul (Nonneg R) α where
+  continuous_smul := continuous_smul (M := R).comp <| continuous_subtypeVal.prodMap continuous_id
